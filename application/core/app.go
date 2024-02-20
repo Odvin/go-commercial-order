@@ -1,19 +1,19 @@
-package api
+package core
 
 import (
-	"github.com/Odvin/go-commercial-order/internal/application/core/domain"
-	"github.com/Odvin/go-commercial-order/internal/ports"
+	"github.com/Odvin/go-commercial-order/application/domain"
+	"github.com/Odvin/go-commercial-order/application/port"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type Application struct {
-	db      ports.DBPort
-	payment ports.PaymentPort
+	db      port.DB
+	payment port.Payment
 }
 
-func NewApplication(db ports.DBPort, payment ports.PaymentPort) *Application {
+func InitApplication(db port.DB, payment port.Payment) *Application {
 	return &Application{
 		db:      db,
 		payment: payment,

@@ -3,7 +3,7 @@ package payment
 import (
 	"context"
 
-	"github.com/Odvin/go-commercial-order/internal/application/core/domain"
+	"github.com/Odvin/go-commercial-order/application/domain"
 	"github.com/Odvin/go-commercial-proto/golang/payment"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -13,7 +13,7 @@ type Adapter struct {
 	payment payment.PaymentClient
 }
 
-func NewAdapter(paymentServiceUrl string) (*Adapter, error) {
+func InitAdapter(paymentServiceUrl string) (*Adapter, error) {
 	var opts []grpc.DialOption
 
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))

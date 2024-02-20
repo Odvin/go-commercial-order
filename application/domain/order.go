@@ -1,6 +1,8 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
 
 type OrderItem struct {
 	ProductCode string  `json:"product_code"`

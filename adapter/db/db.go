@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/Odvin/go-commercial-order/internal/application/core/domain"
+	"github.com/Odvin/go-commercial-order/application/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -27,7 +27,7 @@ type Adapter struct {
 	db *gorm.DB
 }
 
-func NewAdapter(dataSourceUrl string) (*Adapter, error) {
+func InitAdapter(dataSourceUrl string) (*Adapter, error) {
 	db, openErr := gorm.Open(mysql.Open(dataSourceUrl), &gorm.Config{})
 	if openErr != nil {
 		return nil, fmt.Errorf("db connection error: %v", openErr)

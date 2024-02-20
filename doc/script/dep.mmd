@@ -1,0 +1,24 @@
+---
+  title: Order service
+---
+classDiagram
+  grpc-Service ..> Application
+  Application ..> db-Service
+  Application ..> Payment-Service
+  class grpc-Service {
+    Int APPLICATION_PORT
+    Create(CreateOrderRequest) CreateOrderResponse
+  }
+  class Application {
+    String ENV
+    PlaceOrder(oder) oder
+  }
+  class db-Service {
+    String DATA_SOURCE_URL
+    Get(id) order
+    Save(order)
+  }
+  class Payment-Service {
+    String PAYMENT_SERVICE_URL
+    Charge(order)
+  }

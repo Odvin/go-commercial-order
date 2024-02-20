@@ -3,9 +3,20 @@ package grpc
 import (
 	"context"
 
-	"github.com/Odvin/go-commercial-order/internal/application/core/domain"
+	"github.com/Odvin/go-commercial-order/application/domain"
+	"github.com/Odvin/go-commercial-order/application/port"
 	"github.com/Odvin/go-commercial-proto/golang/order"
 )
+
+type Adapter struct {
+	api  port.API
+	port int
+	order.UnimplementedOrderServer
+}
+
+func InitAdapter(api port.API, port int) *Adapter {
+	return &Adapter{api: api, port: port}
+}
 
 func (a Adapter) Create(ctx context.Context, request *order.CreateOrderRequest) (*order.CreateOrderResponse, error) {
 	var orderItems []domain.OrderItem
