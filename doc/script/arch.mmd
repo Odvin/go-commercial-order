@@ -2,26 +2,19 @@
   title: Service architecture
 ---
 classDiagram
-  grpc-order --> api
-  api ..> api-port
-  api-port <|.. Application
-  Order <-- Application
-  Application <.. db-port
-  Application <.. payment-port
-  db-port ..> db
-  payment-port ..> payment
-  db ..> db-mysql
-  payment ..> grpc-payment
-  class grpc-order {
-    <<Service>>
-    adapter.Run()
-  }
+  api ..* api-port : Composition
+  api-port <|.. Application : Realization
+  Order <-- Application : Association
+  Application ..> db-port : Dependency
+  Application ..> payment-port : Dependency
+  db-port <|.. db : Realization
+  payment-port <|.. payment : Realization
   class api {
     <<Adapter>>
     api  port.API
 	  port int
-    InitAdapter(api port.API, port int) *Adapter
-    adapter.Create(ctx context.Context, request *order.CreateOrderRequest) (*order.CreateOrderResponse, error)
+    Create(CreateOrderRequest) (CreateOrderResponse, error)
+    Run()
   }
   class api-port {
     <<Interface>>
@@ -31,15 +24,13 @@ classDiagram
     <<Core>>
     db      port.DB
 	  payment port.Payment
-    InitApplication(db port.DBPort, payment port.PaymentPort) *Application
-    application.PlaceOrder(order domain.Order) (domain.Order, error)
+    PlaceOrder(order domain.Order) (domain.Order, error)
   }
   class Order {
     <<Domain>>
     Order
     OrderItem
-    NewOrder(customerId int64, orderItems []OrderItem) Order
-    order.TotalPrice() float32
+    TotalPrice() float32
   }
   class db-port {
     <<Interface>>
@@ -52,13 +43,12 @@ classDiagram
   }
   class db {
     <<Adapter>>
+    db *gorm.DB
+    Get(id string) (domain.Order, error)
+    Save(order *domain.Order) error
   }
   class payment {
     <<Adapter>>
-  }
-  class db-mysql {
-    <<Service>>
-  }
-  class grpc-payment {
-    <<Service>>
+    payment payment.PaymentClient
+    Charge(order *domain.Order) error
   }

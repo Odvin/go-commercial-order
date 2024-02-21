@@ -2,8 +2,8 @@
 
 # Service dependence
 
-![Service dependence](/doc/pic/service-dep.png 'Dependence')
+![Service dependence](/doc/script/dep.svg 'Dependence')
 
 # Service architecture
 
-![Service architecture](/doc/pic/service-arch.png 'Architecture')
+![Service architecture](/doc/script/arch.svg 'Architecture')
