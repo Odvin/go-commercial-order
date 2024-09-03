@@ -6,11 +6,13 @@ import (
 	"github.com/Odvin/go-commercial-order/application/domain"
 	"github.com/Odvin/go-commercial-order/application/port"
 	"github.com/Odvin/go-commercial-proto/golang/order"
+	"google.golang.org/grpc"
 )
 
 type Adapter struct {
-	api  port.API
-	port int
+	api    port.API
+	port   int
+	server *grpc.Server
 	order.UnimplementedOrderServer
 }
 
@@ -37,4 +39,8 @@ func (a Adapter) Create(ctx context.Context, request *order.CreateOrderRequest) 
 	}
 
 	return &order.CreateOrderResponse{OrderId: result.ID}, nil
+}
+
+func (a Adapter) Stop() {
+	a.server.Stop()
 }

@@ -25,6 +25,9 @@ func (a Adapter) Run() {
 	if config.GetEnv() == "development" {
 		reflection.Register(grpcServer)
 	}
+
+	log.Printf("starting order service on port %d ...", a.port)
+
 	if err := grpcServer.Serve(listen); err != nil {
 		log.Fatalf("failed to serve grpc on port %d", a.port)
 	}
